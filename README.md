@@ -18,3 +18,10 @@ Ricordatevi di fare sempre il file README.md
 NUMERO DI PUSH MINIMO: 7
 
 _SCOMPOSIZIONE PROBLEMA_
+1-Definisco la struttura html ispirandomi all'immagine di reference
+2-Creo un form che detremini la lunghezza della password che verrà generata
+3-Definisco una funzione che generei un password casuale (composta da lettere, lettere maiuscole, numeri e simboli)
+4-Definisco un file dove insrisco le funzioni
+5-Recupero le funzioni con import
+6-Definisco la struttura della pagina a cui reindirizzare l'utente una volta generata la password
+7-Definisco altri parametri per la password

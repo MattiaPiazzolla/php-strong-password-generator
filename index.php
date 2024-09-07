@@ -1,11 +1,11 @@
 <?php
 function passwordGenerator($length) {
     // GENERO I NUMERI DA 0 A 9
-    $numbers = range(0,9);
+    $numbers = range(0, 9);
     // GENERO LE LETTERE DALLA A ALLA z (con qualche simbolo)
-    $letters = range("A","z");
+    $letters = range("A", "z");
     // UNISCO I 2 ARRAY
-    $completeString = array_merge($numbers,$letters);
+    $completeString = array_merge($numbers, $letters);
     // MESCOLO L'ARRAY
     shuffle($completeString);
     // INIZIALIZZO UNA STRINGA VUOTA
@@ -17,38 +17,84 @@ function passwordGenerator($length) {
     }
     return $password;
 }
-?>
 
+// INIZIALIZZO LE VARIABILI
+$lengthNotDefined = false; 
+$lengthParOk = true;
+$showResult = false; // variabile di controllo generale
+
+// CONTROLLO SE È STATO INSERITO UN NUMERO NEL CAMPO INPUT PER LA LUNGHEZZA DELLA PASSWORD
+if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
+    $showResult = true; 
+    // CONVERTO IL VALORE INSERITO IN NUMERO INTERO
+    $passLength = intval($_GET['passLength']);
+
+    // VERIFICO SE LA LUNGHEZZA DELLA PASSWORD È COMPRESA TRA 8 E 50
+    if ($passLength >= 8 && $passLength <= 50) {
+        $lengthParOk = true;
+    } else {
+        $lengthParOk = false;
+    }
+} elseif (isset($_GET['passLength'])) {
+    $showResult = true;
+    $lengthNotDefined = true;
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>PHP Strong Password Generator</title>
 </head>
+
 <body>
     <div class="container">
         <div class="row vh-100 justify-content-center align-items-center">
             <div class="col-12">
                 <h1 class="text-center">Strong Password Generator</h1>
                 <h3 class="text-center">Genera una password sicura</h3>
+
+                <?php if ($showResult) { ?>
+                <?php if ($lengthNotDefined) { ?>
+                <div class="alert alert-danger" role="alert">
+                    Errore: Inserisci una lunghezza per la password.
+                </div>
+                <?php } elseif (!$lengthParOk) { ?>
+                <div class="alert alert-warning" role="alert">
+                    Errore: La lunghezza della password deve essere compresa tra 8 e 50 caratteri.
+                </div>
+                <?php } else { ?>
+                <div class="alert alert-success" role="alert">
+                    <?php echo "La tua password generata è: " . passwordGenerator($passLength); ?>
+                </div>
+                <?php } ?>
+                <?php } ?>
+
                 <form action="./index.php" method="GET" class="p-5 border rounded bg-light">
                     <div class="row row-cols-1 row-cols-lg-3 g-4">
                         <div class="col">
                             <label for="passLength" class="form-label">Lunghezza password:</label>
-                            <input type="number" class="form-control" id="passLength" name="passLength" min="8" max="50" required>
+                            <input type="number" class="form-control" id="passLength" name="passLength" min="8" max="50"
+                                required>
                         </div>
                         <div class="col d-flex flex-column justify-content-center">
                             <p>Consenti ripetizioni di uno o più caratteri:</p>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="doubleChar" id="doubleCharYes" value="yes" checked>
+                                <input class="form-check-input" type="radio" name="doubleChar" id="doubleCharYes"
+                                    value="yes" checked>
                                 <label class="form-check-label" for="doubleCharYes">Sì</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="doubleChar" id="doubleCharNo" value="no">
+                                <input class="form-check-input" type="radio" name="doubleChar" id="doubleCharNo"
+                                    value="no">
                                 <label class="form-check-label" for="doubleCharNo">No</label>
                             </div>
                         </div>
@@ -77,4 +123,5 @@ function passwordGenerator($length) {
         </div>
     </div>
 </body>
+
 </html>

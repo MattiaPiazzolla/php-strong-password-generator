@@ -1,4 +1,5 @@
 <?php
+session_start();
 // INCULDO IL FILE DOVE HO DEFINITO LA FUNZIONE PER GENERARE LA PASSWORD
 include './functions.php';
 // INIZIALIZZO LE VARIABILI
@@ -15,6 +16,10 @@ if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
     // VERIFICO SE LA LUNGHEZZA DELLA PASSWORD È COMPRESA TRA 8 E 50
     if ($passLength >= 8 && $passLength <= 50) {
         $lengthParOk = true;
+        // AVVIO LA SESSIONE
+        $_SESSION['generatedPassword'] = passwordGenerator($passLength);
+        // REINDIRIZZO AD UNA PAGINA DI OUTPUT 
+        header('location: ./output.php');
     } else {
         $lengthParOk = false;
     }
@@ -40,9 +45,8 @@ if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
 
 <body>
     <div class="container">
-        <button class="btn mt-4 position-fixed"><a href="./bonus/index.php"><i class="fas fa-box">
-                    <span class="ms-2">Bonus</span></i></a></button>
-        <h1 class="text-center">Strong Password Generator</h1>
+        <button class="btn mt-4 position-fixed"><a href="../index.php"><i class="fas fa-arrow-left"></i></a></button>
+        <h1 class="text-center">Strong Password Generator (<span class="text-primary">Bonus</span>)</h1>
         <h3 class="text-center">Genera una password sicura</h3>
         <div class="row vh-100 justify-content-center align-items-center">
             <div class="col-12">
@@ -63,7 +67,7 @@ if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
                 <?php } ?>
                 <?php } ?>
 
-                <form action="./index.php" method="GET" class="p-5 border rounded bg-light">
+                <form action="./index.php" method="GET" class="p-5 border rounded bg-dark text-light">
                     <div class="row row-cols-1 row-cols-lg-3 g-4">
                         <div class="col">
                             <label for="passLength" class="form-label">Lunghezza password:</label>

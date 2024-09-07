@@ -82,8 +82,10 @@ if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
                     <div class="row row-cols-1 row-cols-lg-3 g-4">
                         <div class="col">
                             <label for="passLength" class="form-label">Lunghezza password:</label>
+                            <!-- chiedi perchè la forma contratta lascia 1 nel campo input -->
                             <input type="number" class="form-control" id="passLength" name="passLength" min="8" max="50"
-                                required>
+                                required
+                                value="<?php echo isset($_GET['passLength']) ? htmlspecialchars($_GET['passLength']) : ''; ?>">
                         </div>
                         <div class="col d-flex flex-column justify-content-center">
                             <p>Consenti ripetizioni di uno o più caratteri:</p>

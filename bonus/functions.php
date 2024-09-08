@@ -1,5 +1,7 @@
 <?php
 function passwordGenerator($length, $useLetters, $useNumbers, $useSymbols) {
+
+    
      // DEFINISCO UN ARRAY D'APPOGGIO
      $completeString = [];
     // GESTISCO IL CASO IN CUI LETTER È SELEZIONATO
@@ -23,6 +25,6 @@ function passwordGenerator($length, $useLetters, $useNumbers, $useSymbols) {
         // CONCATENO IL CARATTERE ALLA STRINGA PASSWORD
         $password .= $completeString[$i];
     }
+   
     return $password;
-
 }

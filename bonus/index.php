@@ -6,6 +6,8 @@ include './functions.php';
 $lengthNotDefined = false; 
 $lengthParOk = true;
 $showResult = false; // variabile di controllo generale
+// VARIABILE DI CONTROLLO 
+$conditionChecked = false;
 
 // CONTROLLO SE È STATO INSERITO UN NUMERO NEL CAMPO INPUT PER LA LUNGHEZZA DELLA PASSWORD
 if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
@@ -20,10 +22,16 @@ if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
     // VERIFICO SE LA LUNGHEZZA DELLA PASSWORD È COMPRESA TRA 8 E 50
     if ($passLength >= 8 && $passLength <= 50) {
         $lengthParOk = true;
-        // AVVIO LA SESSIONE
-        $_SESSION['generatedPassword'] = passwordGenerator($passLength, $useLetters, $useNumbers, $useSymbols);
-        // REINDIRIZZO AD UNA PAGINA DI OUTPUT 
-        header('location: ./output.php');
+
+        if ($useLetters || $useNumbers || $useSymbols) {
+            $conditionChecked = false;
+            // AVVIO LA SESSIONE
+            $_SESSION['generatedPassword'] = passwordGenerator($passLength, $useLetters, $useNumbers, $useSymbols);
+            // REINDIRIZZO AD UNA PAGINA DI OUTPUT 
+            header('location: ./output.php');
+        } else {
+            $conditionChecked = true;
+        }
     } else {
         $lengthParOk = false;
     }
@@ -64,9 +72,13 @@ if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
                 <div class="alert alert-warning" role="alert">
                     Errore: La lunghezza della password deve essere compresa tra 8 e 50 caratteri.
                 </div>
+                <?php } elseif ($conditionChecked) { ?>
+                <div class="alert alert-warning" role="alert">
+                    Errore: Seleziona almeno un tipo di caratteri (lettere, numeri o simboli).
+                </div>
                 <?php } else { ?>
                 <div class="alert alert-success" role="alert">
-                    <?php echo "La tua password generata è: " . passwordGenerator($passLength); ?>
+                    <?php echo "La tua password generata è: " . $_SESSION['generatedPassword']; ?>
                 </div>
                 <?php } ?>
                 <?php } ?>

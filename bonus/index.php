@@ -14,10 +14,11 @@ if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
     $showResult = true; 
     // CONVERTO IL VALORE INSERITO IN NUMERO INTERO
     $passLength = intval($_GET['passLength']);
-    // RECUPERO GLI IMPUT DI NUMERI LETTERE E SIMBOLI
+    // RECUPERO GLI IMPUT DI NUMERI LETTERE E SIMBOLI E DEL RADIO 
     $useLetters = isset($_GET['letter']);
     $useNumbers = isset($_GET['number']);
     $useSymbols = isset($_GET['symbol']);
+    $rep = isset($_GET['doubleChar']) && $_GET['doubleChar'] === 'yes';
 
     // VERIFICO SE LA LUNGHEZZA DELLA PASSWORD È COMPRESA TRA 8 E 50
     if ($passLength >= 8 && $passLength <= 50) {
@@ -26,7 +27,7 @@ if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
         if ($useLetters || $useNumbers || $useSymbols) {
             $conditionChecked = false;
             // AVVIO LA SESSIONE
-            $_SESSION['generatedPassword'] = passwordGenerator($passLength, $useLetters, $useNumbers, $useSymbols);
+            $_SESSION['generatedPassword'] = passwordGenerator($passLength, $useLetters, $useNumbers, $useSymbols, $rep);
             // REINDIRIZZO AD UNA PAGINA DI OUTPUT 
             header('location: ./output.php');
         } else {
@@ -75,10 +76,6 @@ if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
                 <?php } elseif ($conditionChecked) { ?>
                 <div class="alert alert-warning" role="alert">
                     Errore: Seleziona almeno un tipo di caratteri (lettere, numeri o simboli).
-                </div>
-                <?php } else { ?>
-                <div class="alert alert-success" role="alert">
-                    <?php echo "La tua password generata è: " . $_SESSION['generatedPassword']; ?>
                 </div>
                 <?php } ?>
                 <?php } ?>

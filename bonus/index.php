@@ -12,12 +12,16 @@ if (isset($_GET['passLength']) && ($_GET['passLength'] !== '')) {
     $showResult = true; 
     // CONVERTO IL VALORE INSERITO IN NUMERO INTERO
     $passLength = intval($_GET['passLength']);
+    // RECUPERO GLI IMPUT DI NUMERI LETTERE E SIMBOLI
+    $useLetters = isset($_GET['letter']);
+    $useNumbers = isset($_GET['number']);
+    $useSymbols = isset($_GET['symbol']);
 
     // VERIFICO SE LA LUNGHEZZA DELLA PASSWORD È COMPRESA TRA 8 E 50
     if ($passLength >= 8 && $passLength <= 50) {
         $lengthParOk = true;
         // AVVIO LA SESSIONE
-        $_SESSION['generatedPassword'] = passwordGenerator($passLength);
+        $_SESSION['generatedPassword'] = passwordGenerator($passLength, $useLetters, $useNumbers, $useSymbols);
         // REINDIRIZZO AD UNA PAGINA DI OUTPUT 
         header('location: ./output.php');
     } else {

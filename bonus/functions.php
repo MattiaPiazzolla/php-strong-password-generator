@@ -2,8 +2,8 @@
 function passwordGenerator($length, $useLetters, $useNumbers, $useSymbols, $rep) {
 
     
-     // DEFINISCO UN ARRAY D'APPOGGIO
-     $completeString = [];
+    // DEFINISCO UN ARRAY D'APPOGGIO
+    $completeString = [];
     // GESTISCO IL CASO IN CUI LETTER È SELEZIONATO
     if ($useLetters) {
         $completeString = array_merge($completeString, range('A', 'Z'), range('a', 'z'),range('A', 'Z'), range('a', 'z'),range('A', 'Z'), range('a', 'z'));
